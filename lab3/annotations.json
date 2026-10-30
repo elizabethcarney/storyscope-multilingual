@@ -1,0 +1,32 @@
+{
+  "story0.txt": {
+    "breaking_the_fourth_wall": {
+      "evidence": "",
+      "label": "no"
+    },
+    "temporal_devices": {
+      "evidence": "The story unfolds linearly, with Alaric's present experiences interspersed with brief reflections on his past and his obligations, but there are no significant flashbacks or time jumps.",
+      "label": 1
+    }
+  },
+  "story1.txt": {
+    "breaking_the_fourth_wall": {
+      "evidence": "",
+      "label": "no"
+    },
+    "temporal_devices": {
+      "evidence": "The story unfolds in a mostly linear fashion, with some retrospective elements as Leon reflects on his past and his relationship with Marilyn, but there are no complex time jumps or flashbacks.",
+      "label": 2
+    }
+  },
+  "story3.txt": {
+    "breaking_the_fourth_wall": {
+      "evidence": "",
+      "label": "no"
+    },
+    "temporal_devices": {
+      "evidence": "The story unfolds in a linear fashion with some retrospective elements, particularly through Riya's memories and her mother's recollections, but there are no significant flashbacks or complex time structures.",
+      "label": 2
+    }
+  }
+}
