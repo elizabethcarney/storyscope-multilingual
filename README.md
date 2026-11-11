@@ -10,3 +10,12 @@ pip install -r requirements.txt
 python -m storyscope.story_generation.generate_stories \
     --prompts prompts.json --output-dir outputs/stories --config config/models.yaml --parallel 4
 ```
+
+## Feature application
+
+Stage 5 (`5_feature_application`) from the same commit, renamed to `feature_application`. Uses `data/taxonomy.json`.
+
+```bash
+python -m storyscope.feature_application.apply_features \
+    --csv <stories.parquet> --taxonomy data/taxonomy.json --output-dir outputs/features --config config/models.yaml
+```
