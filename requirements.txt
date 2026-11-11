@@ -1,0 +1,10 @@
+pyyaml>=6.0
+
+# LLM Providers (install the ones you need)
+openai>=1.30
+anthropic>=0.30
+google-genai>=1.0
+
+# Local models (optional, for huggingface provider)
+# transformers>=4.40
+# torch>=2.1
