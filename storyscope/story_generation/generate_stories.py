@@ -7,7 +7,7 @@ using a configurable LLM provider and saves them in a structured layout.
 
 Usage:
     python -m storyscope.story_generation.generate_stories \
-        --prompts prompts.json \
+        --prompts data/prompts_train_{language}.json --language kannada \
         --output-dir outputs/stories \
         --config config/models.yaml \
         --parallel 4
@@ -33,17 +33,41 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-SYSTEM_PROMPT = "You are a creative writing expert who generates rich, detailed stories."
+TRANSLATIONS_FILE = Path(__file__).parent / "prompt_translations.json"
+SYSTEM_PROMPT_KEY = "system_prompt_story_generation"
 
 
-def generate_story(provider, prompt_text: str) -> str:
-    """Generate a single story using the configured provider."""
-    return provider.generate(prompt_text, system=SYSTEM_PROMPT)
+def load_system_prompt(language: str, translations_file: Path = TRANSLATIONS_FILE) -> str:
+    """Look up the story-generation system prompt for a target language."""
+    data = json.loads(Path(translations_file).read_text(encoding="utf-8"))
+    by_language = data[SYSTEM_PROMPT_KEY]
+    if language not in by_language:
+        raise SystemExit(
+            f"No system prompt for language '{language}' in {translations_file}. "
+            f"Available: {', '.join(by_language)}"
+        )
+    return by_language[language]
+
+
+def generate_story(provider, prompt_text: str, system_prompt: str, stream_file: Path | None = None) -> str:
+    """Generate a single story using the configured provider.
+
+    If stream_file is given, providers that support streaming write the text
+    to it as it arrives (others ignore it).
+    """
+    return provider.generate(
+        prompt_text, system=system_prompt,
+        stream_file=str(stream_file) if stream_file else None,
+    )
 
 
 def main():
     parser = argparse.ArgumentParser(description="Generate AI stories from prompts")
-    parser.add_argument("--prompts", required=True, help="Path to prompts JSON file")
+    parser.add_argument("--prompts", required=True, help="Path to prompts JSON file; '{language}' is replaced by --language")
+    parser.add_argument("--language", default="english",
+                        help="Target language key in the translations file (e.g. english, mandarin_chinese, kannada)")
+    parser.add_argument("--translations", default=str(TRANSLATIONS_FILE),
+                        help="JSON file with translated system prompts")
     parser.add_argument("--output-dir", required=True, help="Output directory for stories")
     parser.add_argument("--config", default="config/models.yaml", help="Path to models.yaml")
     parser.add_argument("--provider", default=None, help="Override provider (openai, anthropic, vertex, huggingface)")
@@ -54,13 +78,17 @@ def main():
     parser.add_argument("--start-from", type=int, default=1, help="Start from prompt ID")
     args = parser.parse_args()
 
+    system_prompt = load_system_prompt(args.language, args.translations)
+    prompts_path = args.prompts.format(language=args.language)
+    logger.info(f"Language: {args.language}; prompts: {prompts_path}")
+
     config = load_config(args.config)
     provider = get_provider(
         config, stage="story_generation",
         provider_name=args.provider, model=args.model,
     )
 
-    prompts_data = load_prompts(args.prompts)
+    prompts_data = load_prompts(prompts_path)
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -97,8 +125,10 @@ def main():
 
     def worker(task):
         task["dir"].mkdir(parents=True, exist_ok=True)
-        story = generate_story(provider, task["prompt"])
+        partial = task["file"].with_name("story.txt.partial")
+        story = generate_story(provider, task["prompt"], system_prompt, stream_file=partial)
         task["file"].write_text(story, encoding="utf-8")
+        partial.unlink(missing_ok=True)
 
         # Save metadata
         meta = {
@@ -106,6 +136,7 @@ def main():
             "title": task["title"],
             "prompt": task["prompt"],
             "model": provider.model,
+            "language": args.language,
             "story_length_chars": len(story),
             "timestamp": time.strftime("%Y-%m-%d %H:%M:%S"),
         }

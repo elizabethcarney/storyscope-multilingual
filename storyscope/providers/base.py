@@ -84,6 +84,9 @@ def get_provider(
     mname = model or stage_config.get("model", "gpt-4o")
     max_tokens = overrides.pop("max_tokens", stage_config.get("max_tokens", 4096))
 
+    # Keys already resolved above must not be passed twice
+    stage_config = {k: v for k, v in stage_config.items() if k not in ("provider", "model", "max_tokens")}
+
     # Merge provider-level config
     provider_config = config.get("providers", {}).get(pname, {})
 

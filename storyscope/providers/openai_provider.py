@@ -37,13 +37,29 @@ class OpenAIProvider(LLMProvider):
                 call_kwargs = dict(
                     model=self.model,
                     messages=messages,
-                    max_tokens=max_tokens,
+                    max_completion_tokens=max_tokens,
                 )
                 if self.reasoning_effort:
                     call_kwargs["reasoning_effort"] = self.reasoning_effort
 
-                response = self.client.chat.completions.create(**call_kwargs)
-                text = response.choices[0].message.content
+                stream_file = kwargs.get("stream_file")
+                if stream_file:
+                    # Stream chunks to disk as they arrive (restarts the file on retry)
+                    call_kwargs["stream"] = True
+                    parts = []
+                    with open(stream_file, "w", encoding="utf-8") as f:
+                        for chunk in self.client.chat.completions.create(**call_kwargs):
+                            if not chunk.choices:
+                                continue
+                            delta = chunk.choices[0].delta.content
+                            if delta:
+                                parts.append(delta)
+                                f.write(delta)
+                                f.flush()
+                    text = "".join(parts)
+                else:
+                    response = self.client.chat.completions.create(**call_kwargs)
+                    text = response.choices[0].message.content
                 if not text or not text.strip():
                     raise ValueError("Empty response from OpenAI")
                 return text.strip()
@@ -73,7 +89,7 @@ class OpenAIProvider(LLMProvider):
         response = self.client.chat.completions.create(
             model=self.model,
             messages=messages,
-            max_tokens=max_tokens,
+            max_completion_tokens=max_tokens,
             response_format={"type": "json_object"},
         )
         text = response.choices[0].message.content
