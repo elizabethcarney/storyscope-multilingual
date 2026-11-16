@@ -7,9 +7,24 @@ Renamed `1_story_generation` to `story_generation` so it is importable.
 
 ```bash
 pip install -r requirements.txt
+export OPENAI_API_KEY=sk-...   # or: set -a; source .env; set +a
 python -m storyscope.story_generation.generate_stories \
     --prompts prompts.json --output-dir outputs/stories --config config/models.yaml --parallel 4
 ```
+
+### Generating stories in another language
+
+1. Translate the prompts (see "Translating prompts" below), e.g. `data/prompts_train_kannada.json`.
+2. Make sure the language has a system prompt in `storyscope/story_generation/prompt_translations.json` (keys: `english`, `mandarin_chinese`, `kannada`).
+3. Run with `--language` (`{language}` in `--prompts` is replaced by it):
+
+```bash
+python -m storyscope.story_generation.generate_stories \
+    --prompts 'data/prompts_train_{language}.json' --language kannada \
+    --output-dir data/stories_kannada --max-stories 3 --parallel 3
+```
+
+Drop `--max-stories` for the full set; add `--resume` to skip finished stories. Output is streamed to `story.txt.partial` in each story folder, then saved as `story.txt` + `metadata.json`.
 
 ## Feature application
 
