@@ -1,0 +1,123 @@
+{
+  "story_title": "Story_0",
+  "prompt_id": 0,
+  "author": "gpt",
+  "features": {
+    "STY_ALL_017": {
+      "value": 2,
+      "evidence": [
+        "The old stories named beings like her undines, daughters of the deeps, hungry for breath, for souls, for love, for ruin—depending on who told the tale.",
+        "some radiant bride from a song, some face that would make desire and duty one thing instead of two.",
+        "“Are you of the Fair Folk?” he asked."
+      ],
+      "reasoning": "The passage includes a small number of clear cultural/mythic references—especially to undines, the Fair Folk, and the conventional idea of a bride from song—but these are limited and do not create a densely allusive texture. The story remains primarily self-contained rather than heavily reliant on external references."
+    },
+    "PER_DIA_001": {
+      "value": 2,
+      "evidence": [
+        "“Prince.”",
+        "“Who are you?” he asked.",
+        "“Are you of the Fair Folk?” he asked.",
+        "“Does it hurt?” he whispered.",
+        "His ocean of love, he told her once, pressing his forehead to hers.",
+        "At last, in the gray hour before rain, he said, “I cannot.”",
+        "“I am promised,” he continued, and heard the feebleness of it even as he spoke."
+      ],
+      "reasoning": "The story is overwhelmingly narrated through description, summary, and interior reflection, with only a small number of brief direct-speech moments. Dialogue is clearly present, so it is not category 1, but it is too sparse to count as balanced or frequent."
+    },
+    "REV_DIS_003": {
+      "value": 2,
+      "evidence": [
+        "Prince Alaric had loved that sound as a child.",
+        "He had seen her three times.\n\nWhen she was a child, fever had eaten one side of her face and left it puckered and pale, pulling her mouth into a permanent, lopsided severity. One eye watered incessantly. Her right hand, too, was twisted at the wrist.",
+        "Years later, people said he had become a good king."
+      ],
+      "reasoning": "The story is predominantly linear, following Alaric from late summer through winter and then briefly into later years. It includes only minor backward glances and a brief forward jump/epilogue-like ending, not regular flashbacks, complex framing, or fragmented chronology used for major reconstructive revelation."
+    },
+    "SET_LOC_011": {
+      "value": "2_two_to_four_locales",
+      "evidence": [
+        "At low tide the rocks below Castle Eiren shone like black teeth, and beyond them the western sea breathed in long, deliberate sighs, as if some immense creature slept just under the skin of the water.",
+        "Now, in the late summer of his twenty-third year, he went to the cliffs because it was the one place in his father’s kingdom where no one spoke to him of vows.",
+        "At dusk he went to the cove beneath the castle, and she rose to him from the waves.",
+        "They met in a ruined watchtower hidden among bent pines above the cove, where the sea could still be seen between the stones.",
+        "The banns were read in the chapel.",
+        "The wedding to Lady Yselle was held in the first week of winter. Snow powdered the battlements."
+      ],
+      "reasoning": "The story meaningfully inhabits a small set of recurring physical locales within one kingdom: the cliffs/cove/shore below Castle Eiren, the ruined watchtower above the cove, and courtly spaces such as the chapel and battlements/castle. These are more than a single location, but not enough to suggest many locales across a broad region."
+    },
+    "SIT_MET_002": {
+      "value": "no direct address",
+      "evidence": [],
+      "reasoning": "The narration is third-person and does not directly address the reader or audience with second-person framing such as 'reader' or 'you.' No character speaks to the audience either."
+    },
+    "PLT_STR_003": {
+      "value": "one_or_two_minor_subplots",
+      "evidence": [
+        "Peace with the north had been purchased not in gold but in flesh: Alaric was to wed Lady Yselle of Dunmark before the winter storms. Her dowry was a river valley; her hand would bind two old enemies into one bloodline.",
+        "Soon there was no need of summons. At dusk he went to the cove beneath the castle, and she rose to him from the waves. He called her Nerina because she had no name he could hear.",
+        "The wedding to Lady Yselle was held in the first week of winter. Snow powdered the battlements. Bells rang over a kingdom relieved to be safe. Yselle stood beside him in cloth-of-silver, her damaged face uncovered, her one clear eye steady.",
+        "As for Nerina, no chapel ever named her ending.",
+        "Fishermen told of seeing, after tempests, a figure in the spray atop the reef line, hair streaming with cold fire. Sailors swore that a singer without a voice guided lost boats clear of the rocks, then vanished before dawn. And children on the shore, daring one another at twilight, said there was an undine in the tide pools who no longer rose for princes, who had learned the mutable law of hearts and chosen at last to belong only to the sea."
+      ],
+      "reasoning": "The story centers on Alaric’s main conflict between desire and dynastic duty. Alongside that main arc, there are limited secondary threads: the political marriage/peace settlement with Yselle and the lingering legendary aftermath of Nerina. These enrich the main plot but do not amount to a large ensemble or many interwoven subplots."
+    },
+    "PLT_MOR_002": {
+      "value": "ambivalent_or_morally_mixed",
+      "evidence": [
+        "Instead she was merely marked, and he, seeing her, felt a recoil so immediate and bodily that shame followed always a beat too late.",
+        "He despised himself for it. He despised, more secretly, the kingdom for asking him to master what in him refused mastery.",
+        "What had seemed an escape now required concealment, explanation, invention. Even beauty, seen nightly, became familiar. And familiarity, in Alaric’s ungenerous heart, began to make room again for duty.",
+        "“I am promised,” he continued, and heard the feebleness of it even as he spoke.",
+        "The wedding to Lady Yselle was held in the first week of winter. Snow powdered the battlements. Bells rang over a kingdom relieved to be safe. Yselle stood beside him in cloth-of-silver, her damaged face uncovered, her one clear eye steady. When she placed her twisted hand in his, he felt not desire but a grave, surprising respect. It was not love. Perhaps it might become a kind of tenderness. Kingdoms, he was learning, were often built on lesser and more durable things.",
+        "Years later, people said he had become a good king.",
+        "Yet sometimes, when storms struck the western coast and the surf burned green at night, Alaric would wake with the taste of salt in his mouth and think of a woman who had walked on knives for his brief astonishment."
+      ],
+      "reasoning": "The narrative neither fully celebrates nor wholly condemns Alaric. It exposes his vanity, weakness, and moral failure toward Nerina, yet also acknowledges his shame, growth, dutiful marriage, and later success as king. That balance makes the final stance morally mixed rather than heroic, purely tragic-flaw-centered, or antiheroic."
+    },
+    "AGENT_EMO_009": {
+      "value": "embodied_sensations_and_metaphors",
+      "evidence": [
+        "Instead she was merely marked, and he, seeing her, felt a recoil so immediate and bodily that shame followed always a beat too late.",
+        "The instant both feet touched dry sand, her body changed—not in shape, but in bearing. Her shoulders drew tight. Her breath caught.",
+        "Her face answered. The lovely serenity fractured. Around her eyes gathered a strain so naked it resembled terror.",
+        "Each step inland cost her. He felt it in the trembling of her legs beneath his hands, saw it in the whiteness around her mouth.",
+        "It was as though the very earth were made of knives and she had chosen to walk on their points for him.",
+        "She smiled sadly at that, and he did not understand why.",
+        "Nerina still rose to meet him, and still, when she crossed onto land, that silent knifepoint agony wrote itself over her features.",
+        "The thought passed, but it left a line in the sand.",
+        "Then she laid her hand over his heart. Her palm was cold. She held it there until his pulse steadied under it, as if she were returning something he had borrowed recklessly.",
+        "Yet sometimes, when storms struck the western coast and the surf burned green at night, Alaric would wake with the taste of salt in his mouth and think of a woman who had walked on knives for his brief astonishment."
+      ],
+      "reasoning": "Emotions are conveyed primarily through bodily sensations, physical reactions, and metaphorical embodiment rather than direct labels alone or purely external action. The story repeatedly renders feeling as recoil, trembling, breath-catching, whiteness around the mouth, pulse, and the extended 'walked on knives' metaphor."
+    }
+  },
+  "metadata": {
+    "model": "gpt-5.4-2026-03-05",
+    "total_features": 8,
+    "features_extracted": 8,
+    "dimension_details": {
+      "style": {
+        "features_extracted": 1
+      },
+      "perspective": {
+        "features_extracted": 1
+      },
+      "revelation": {
+        "features_extracted": 1
+      },
+      "setting": {
+        "features_extracted": 1
+      },
+      "situatedness": {
+        "features_extracted": 1
+      },
+      "plot": {
+        "features_extracted": 2
+      },
+      "agents": {
+        "features_extracted": 1
+      }
+    }
+  }
+}

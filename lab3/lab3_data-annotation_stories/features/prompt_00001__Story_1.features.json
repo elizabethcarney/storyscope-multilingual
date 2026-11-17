@@ -1,0 +1,43 @@
+{
+  "story_title": "Story_1",
+  "prompt_id": 1,
+  "author": "gpt",
+  "features": {
+    "REV_DIS_003": 1,
+    "PER_DIA_001": 3,
+    "SET_LOC_011": "3_many_within_one_region",
+    "PLT_STR_003": "one_or_two_minor_subplots",
+    "PLT_MOR_002": "affirmative_heroic",
+    "SIT_MET_002": "no direct address",
+    "AGENT_EMO_009": "behavioral_cues_and_action_only",
+    "STY_ALL_017": 3
+  },
+  "metadata": {
+    "model": "gpt-5.4-2026-03-05",
+    "total_features": 8,
+    "features_extracted": 8,
+    "dimension_details": {
+      "revelation": {
+        "features_extracted": 1
+      },
+      "perspective": {
+        "features_extracted": 1
+      },
+      "setting": {
+        "features_extracted": 1
+      },
+      "plot": {
+        "features_extracted": 2
+      },
+      "situatedness": {
+        "features_extracted": 1
+      },
+      "agents": {
+        "features_extracted": 1
+      },
+      "style": {
+        "features_extracted": 1
+      }
+    }
+  }
+}

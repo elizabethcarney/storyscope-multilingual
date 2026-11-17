@@ -1,0 +1,176 @@
+{
+  "story_title": "Story_1",
+  "prompt_id": 1,
+  "author": "gpt",
+  "features": {
+    "STY_ALL_017": {
+      "value": 2,
+      "evidence": [
+        "delta blues festivals where men with livers the color of old lemons bent over guitars and made the air hurt.",
+        "The sink stain shaped like the state of Texas,",
+        "No, I mean tired in the bones. Tired like I’ve been told no so many times the word’s moved in and changed the locks.",
+        "Marilyn opened the door partway. She wore an old college T-shirt and jeans, barefoot, hair pinned up with a pencil.",
+        "The funeral filled a Baptist church with men in work boots and women in dark dresses and children too young to understand why adults kept touching their heads. The preacher spoke of homegoing and labor rewarded and the Lord calling his servant from the field.",
+        "Mississippi remained itself: lush, exhausted, holy in spots, cruel by habit,"
+      ],
+      "reasoning": "The passage contains only a small number of explicit cultural or regional references—such as Delta blues, Texas, Baptist church culture, and Mississippi setting markers. These references help situate the story but do not create a densely allusive texture or make understanding depend on outside knowledge, so this fits one_or_two_minor_allusions better than higher levels."
+    },
+    "REV_DIS_003": {
+      "value": 1,
+      "evidence": [
+        "Leon Barlow lived in a shotgun rental at the edge of a soybean field outside Greenwood, Mississippi, where the land flattened itself into a long exhausted thought and the road in front of his house turned to chalky dust whenever a truck passed.",
+        "Two days later the check from the paper did not come.",
+        "The next week brought rain, the kind of low endless Delta rain that turned the yard into paste and made the ditches swell brown and muscular.",
+        "By August the heat settled in with murderous intent.",
+        "Late in September, just as the air began to loosen and mornings carried a hint of mercy, Leon got a call from an editor in Baton Rouge.",
+        "In October Marilyn asked him to meet at the county office to finalize a property tax issue.",
+        "The tragedy, when it came, arrived in the plain clothes of routine.",
+        "The winter after Monroe died was colder than usual.",
+        "In January the electricity was nearly cut off.",
+        "In February Marilyn came by with a bag of groceries.",
+        "Spring arrived in stages: mud, pollen, light lingering past six.",
+        "One afternoon in May, while he was under a Silverado at the tire shop, the owner shouted that the phone was for him."
+      ],
+      "reasoning": "The story proceeds in a straightforward chronological sequence marked by clear temporal transitions ('Two days later,' 'The next week,' 'By August,' 'Late in September,' etc.). While there are brief background references to prior events, there are no actual flashback scenes, frame narrative layers, or disruptive time braids used to withhold or stage revelation."
+    },
+    "SIT_MET_002": {
+      "value": "no direct address",
+      "evidence": [],
+      "reasoning": "The story does not directly address the reader or audience with second-person appeals like 'reader' or similar explicit narration. Dialogue is addressed only between characters, so direct address is absent."
+    },
+    "SET_LOC_011": {
+      "value": "3_many_within_one_region",
+      "evidence": [
+        "Leon Barlow lived in a shotgun rental at the edge of a soybean field outside Greenwood, Mississippi",
+        "She lived in town now in a duplex with decent blinds and a flowerbed she had mulched herself.",
+        "He covered Friday night football for a weekly paper in Indianola if somebody was sick.",
+        "Visa wanted money on a card that had once bought groceries and tires and a motel room in Jackson",
+        "That night Leon walked to the Quick Mart",
+        "Around eleven Monroe called from a bar payphone",
+        "He spent the afternoon on an article about a sinkhole opening near Belzoni.",
+        "He wrote the piece at the weekly’s office under fluorescent lights",
+        "At Marilyn’s duplex the porch light was on.",
+        "Monroe had taken a job south of Clarksdale, repairing storm damage on a barn roof.",
+        "They were taking him to Greenville.",
+        "The funeral filled a Baptist church",
+        "He spent the morning with his mother in Greenville",
+        "He sold a box of first edition paperbacks to a dealer in Jackson",
+        "The new story—the casino buffet story—was accepted by a literary quarterly at a university in Arkansas.",
+        "Spring arrived in stages: mud, pollen, light lingering past six. Leon sent River Bones again, this time to a small press in North Carolina",
+        "On publication day he drove into town and found the book in a window at Turnrow Books"
+      ],
+      "reasoning": "The story inhabits numerous distinct physical locales—Leon’s rental, Marilyn’s duplex, stores, offices, roads, hospital, church, cemetery, nearby towns, and references to Jackson/Greenville/Belzoni/Indianola/Clarksdale—yet all are concentrated within the Mississippi Delta/Southern regional world rather than being meaningfully multi-regional in lived scene. New York, Arkansas, and North Carolina are mostly remote institutional references, not fully inhabited settings."
+    },
+    "PLT_STR_003": {
+      "value": "one_or_two_minor_subplots",
+      "evidence": [
+        "He was thirty-nine, newly divorced in the legal sense and still badly married in the emotional one, which meant that Marilyn moved through his life like weather—gone, returned, gone again, always capable of changing the pressure in a room without warning.",
+        "Marilyn called most often when she needed something, which was not to say she called only for practical reasons. Need itself was a kind of language between them, one they had cultivated to the point of fluency.",
+        "At Marilyn’s duplex the porch light was on. He had not intended to stop, but there it was, and he had spent the drive thinking about her voice, that mixture of anger and fatigue, and by the time he passed her street he was already turning.",
+        "The tragedy, when it came, arrived in the plain clothes of routine.",
+        "Monroe had taken a job south of Clarksdale, repairing storm damage on a barn roof.",
+        "Monroe was dead. The fact would not enter properly.",
+        "In February Marilyn came by with a bag of groceries.",
+        "They did not get back together. Reality was less sentimental and more exacting than that.",
+        "Publication did not rescue him.",
+        "The advance was fifteen hundred dollars, less after taxes and the old card debt he reluctantly paid."
+      ],
+      "reasoning": "The main plot centers on Leon’s struggle to persist as a writer and get his novel published. Interwoven around that are a small number of substantive secondary arcs: his unresolved relationship with Marilyn and the friendship/loss arc involving Monroe. These are meaningful but do not amount to a large ensemble or many parallel subplots."
+    },
+    "PLT_MOR_002": {
+      "value": "ambivalent_or_morally_mixed",
+      "evidence": [
+        "He wrote because not writing made the world too literal.",
+        "He thought of smashing the silver sedan with a tire iron. He thought of writing Marilyn a letter so exact and merciless it would flay both of them.",
+        "By the time he reached the county line he was crying in the furious, embarrassed manner of a man alone in a machine at night, cursing himself for every bodily sign of injury.",
+        "Beer gave way to cheap whiskey because it took up less room in the refrigerator and warmed him faster, though it also clouded the mornings and brought a meaner kind of introspection.",
+        "I was cruel to you.",
+        "You were sometimes accurate.",
+        "And you,” she said, “used your silence like a club.”",
+        "I know.",
+        "Nothing had been redeemed in the grand sense. Poverty had not become noble. Grief had not become wisdom.",
+        "Yet he felt, sitting there, a defiance so quiet it was almost indistinguishable from peace.",
+        "Leon bent over the paper and began again, stubborn as weather, broke as ever, alive in the only way he had ever fully trusted: making something no one had asked him to make, in a room no one would have chosen, against all good advice, with the ashtray full, the debt unpaid, the night wide around him, and the hard bright faith—ridiculous, necessary, unbeaten—that the work was worth the life."
+      ],
+      "reasoning": "The narrative ultimately respects Leon’s endurance and artistic commitment, but it does not present him as purely heroic. It repeatedly foregrounds his flaws—self-destructive habits, bitterness, silence, and complicity in relational damage—while still affirming the value of his persistence. That combination makes the stance morally mixed rather than simply affirmative or condemnatory."
+    },
+    "AGENT_EMO_009": {
+      "value": "explicit_emotion_labels",
+      "evidence": [
+        "He was thirty-nine, newly divorced in the legal sense and still badly married in the emotional one, which meant that Marilyn moved through his life like weather—gone, returned, gone again, always capable of changing the pressure in a room without warning.",
+        "On bad nights it felt more like he was storing evidence for the prosecution.",
+        "He woke most mornings around five, not from discipline but because the mind that carried debt slept in anxious slices.",
+        "Leon laughed, which surprised him. He had been in one of those moods where laughter seemed like an insult, but Monroe had a way of striking the flint anyway.",
+        "When she called, Leon could feel his body tighten before he even picked up.",
+        "He gripped the receiver hard enough his hand hurt.",
+        "He nearly answered in anger, one of the sharp true things that remain forever after they are said. Instead he looked at the typewriter on the table, the pages stacked beside it, the ash blown across his notes like gray snow, and felt something in him go tired.",
+        "Back home he ate chili from the pot and reread three stories he had published years earlier in little magazines no one south of Memphis had heard of. The stories were good. That was the problem.",
+        "You all right?\n\nLeon looked around the kitchen at the bad linoleum, the sink stain shaped like the state of Texas, the stack of bills tucked under a ceramic rooster Marilyn had once insisted was charming. He thought of saying something broad and literary about despair. Instead he said, “No.”",
+        "When he left, Leon experienced that familiar blend of rage and humiliation that seemed to define poverty: not just lacking, but having one’s lack observed.",
+        "For a second her expression was not defensive but startled, almost vulnerable. Then she saw whatever was on his face and her own features hardened.",
+        "He felt something coarse and hot move through him.",
+        "And what rose in him was not only jealousy but a terrible orphaned grief, as if he had stumbled upon strangers inhabiting a house he had built.",
+        "By the time he reached the county line he was crying in the furious, embarrassed manner of a man alone in a machine at night, cursing himself for every bodily sign of injury.",
+        "The simplicity of it nearly broke Leon’s heart.",
+        "His pulse kicked in his throat.",
+        "He distrusted himself for indulging any of it, yet the mind reached where it reached.",
+        "His heart lurched.",
+        "He closed his eyes. There it was, the funeral phrase dressed up for church.",
+        "Monroe pretended not to notice for almost a minute, which was a kindness, and then reached out and thumped Leon’s shoulder with a hand rough from shingles and nails.",
+        "He almost smiled.",
+        "He looked at the grease on his hands, black in the palm lines. “They’re taking the book.”\n\nThe owner grinned. “Hell. Knew there was some reason you were weird.”\n\nLeon laughed so hard he had to put a hand over his face.",
+        "Yet he felt, sitting there, a defiance so quiet it was almost indistinguishable from peace."
+      ],
+      "reasoning": "The story most often names emotions directly—anxious, anger, despair, rage, humiliation, jealousy, grief, vulnerable, peace—rather than relying only on action or keeping feelings suppressed. Although there are also bodily cues and metaphors, explicit emotion labels are the dominant mode."
+    },
+    "PER_DIA_001": {
+      "value": 3,
+      "evidence": [
+        "“Any word from them Yankees?” Monroe asked one blazing Thursday in June, stepping over a stack of old newspapers and dropping onto the plastic chair, which creaked as if issuing a legal protest.\n\nLeon raised a rejection slip in salute. “They admire the language.”\n\n“Well hell,” Monroe said. “Can admiration pay Entergy?”\n\n“Maybe if I frame it.”\n\nMonroe accepted a warm beer from the refrigerator. “You ought to start sending letters back. ‘Dear Sirs, admired your envelope, regret to inform you go to hell.’”",
+        "“You still seeing Marilyn?” Monroe asked.\n\nLeon rolled the cigarette between finger and thumb though he had bought the pack yesterday and could not afford to bruise one. “Seeing is a word.”\n\n“You still fighting, then.”\n\n“We can fight from separate addresses. America’s finest innovation.”\n\nMonroe drank. “You love her?”\n\nLeon looked at the field. “I’m trying not to.”\n\n“That ain’t what I asked.”\n\n“No,” Leon said after a long time. “But there’s some muscle memory in me that mistakes pain for continuation.”\n\nMonroe squinted at him. “That sounds like something you’d put in a book and not something a man ought to confess before lunch.”\n\nLeon smiled again despite himself. “Maybe that’s all I know how to do.”",
+        "“Hello?”\n\nA pause. Then her voice, cool and familiar and edged with fatigue. “You got the spare key to the Buick?”\n\n“It should be in the blue bowl.”\n\n“It’s not.”\n\n“Then check the junk drawer.”\n\n“I did. Leon, I already checked.”\n\nHe pinched the bridge of his nose. “Then maybe you lost it.”\n\n“I don’t lose everything, no matter what story you’ve told yourself.”\n\n“No story. Just memory.”\n\n“That’s rich.”",
+        "“I’ll come by after lunch,” he said.\n\n“No need. I found it.”\n\n“Then why’d you call?”\n\nSilence now, heavier. On her end he could hear a television murmuring in another room.\n\n“I got a letter from your lawyer,” she said. “About the tax thing.”\n\n“It’s not my lawyer. It’s a lawyer. He drew up the papers.”\n\n“Well, he says there’s still the issue of the joint return.”\n\n“There’s no issue if you sign it.”\n\n“I’m not signing something that gets me tangled in your mess.”\n\n“My mess is half of what we were.”\n\n“And there it is,” she said, voice rising. “You always do that. Every bad choice gets wrapped in poetry so nobody can touch it.”",
+        "He leaned out the truck window.\n\n“Evenin’, Leon.”\n\n“Evenin’, Earl.”\n\n“You got that rent?”\n\nLeon had thirty-two dollars in his wallet and two in change on the windowsill. He also had a check due from the paper, supposedly tomorrow, supposedly for a hundred and eighty, supposedly already mailed. The world of supposed things was what kept him moving.\n\n“Tomorrow,” Leon said. “Paper’s paying me.”\n\nEarl nodded once, not agreeing so much as noting the latest story in a long running series. “Tomorrow’s been busy lately.”\n\n“I know.”\n\n“If I was a hard man, I’d say get out.”\n\nLeon flicked ash into an empty can. “If you were a hard man, you’d have fixed the plumbing.”\n\nEarl grinned then, foxlike. “That ain’t hardness. That’s economy.”\n\n“Well,” Leon said, “I’m practicing it myself.”",
+        "Around eleven Monroe called from a bar payphone, his voice thick with pool-room noise.\n\n“You awake?”\n\n“I’m alive.”\n\n“Close enough. You wanna come play cards at Skeeter’s?”\n\n“I can’t afford to lose money.”\n\n“Then come win it.”\n\n“I can’t afford gas.”\n\nA pause, then Monroe said, “You all right?”\n\nLeon looked around the kitchen at the bad linoleum, the sink stain shaped like the state of Texas, the stack of bills tucked under a ceramic rooster Marilyn had once insisted was charming. He thought of saying something broad and literary about despair. Instead he said, “No.”",
+        "Marilyn opened the door partway. She wore an old college T-shirt and jeans, barefoot, hair pinned up with a pencil. For a second her expression was not defensive but startled, almost vulnerable. Then she saw whatever was on his face and her own features hardened.\n\n“What are you doing here?”\n\n“I was passing by.”\n\n“No one passes by here unless they mean to.”\n\nHe glanced toward the silver sedan. “You got company.”\n\n“Leon—”\n\nA man appeared in the hall behind her, carrying two wineglasses. He was thin, tanned in the expensive way, maybe mid-forties, with a collared shirt rolled at the sleeves. He stopped when he saw Leon, and in that instant all three of them recognized their assigned places in the scene.\n\n“I can come back,” he said, and his voice sounded calm in a way that frightened him.\n\n“This is David,” Marilyn said, as if naming him could civilize the situation. “He’s with the bank.”\n\n“With the bank,” Leon repeated.\n\nDavid inclined his head, trying on decency. “Good to meet you.”\n\n“It isn’t,” Leon said.",
+        "One noon, lying on a patch of plywood under a half-finished roof while cicadas screamed from the trees, Monroe said, “You ever think maybe leave? Go north somewhere. Bigger papers. More chances.”\n\nLeon held a warm bottle of water against his forehead. “And be broke in winter instead of summer?”\n\n“I’m serious.”\n\n“So am I. I don’t know anybody north. Up there I’d just be poor with snow on me.”\n\nMonroe chewed, considering. “Could be good for a book.”\n\n“Everything’s good for a book,” Leon said. “That’s the disease.”\n\nMonroe smiled sadly. “Yeah.”",
+        "“Leon? This is Cynthia Webb from Bayou Press.”\n\nHis heart lurched. “Yes.”\n\n“I wanted to speak with you personally because I did read the manuscript, and there is a great deal to admire—”\n\nHe closed his eyes. There it was, the funeral phrase dressed up for church.\n\n“—but in the end we just didn’t feel we could support it in the way it would need. It’s uncompromising, which I mean as praise, though I know that’s cold comfort.”\n\nHe leaned against the counter. “I see.”\n\n“I’m sorry. Truly. There are passages in here that are stunning.”\n\n“Thank you.”\n\n“I hope you’ll send us future work.”\n\nHe almost laughed. Future work. As if work were rain and not blood. “Sure,” he said.",
+        "“You ain’t done,” Monroe said.\n\n“How do you know?”\n\n“Because if you were done, you wouldn’t hurt this much.”",
+        "“You look bad,” she said by way of greeting.\n\nHe almost smiled. “You look expensive.”\n\nShe frowned, then smoothed the hem of her dress. “David bought this.”\n\n“I gathered.”",
+        "“There has to be some middle ground between pride and self-destruction.”\n\n“Maybe. I don’t rent there.”\n\nShe looked at the card from Darlene over the table, then at the manuscript stack, thicker now with revisions and new pages. “Is it better?” she asked quietly.\n\nHe understood at once what she meant. “Yes.”\n\n“How do you know?”\n\n“Because it scares me now.”",
+        "“Mr. Barlow, this is Daniel Reese at Red Clay Books.”\n\nFor a second the words meant nothing. Then everything stopped.\n\n“I’ve just finished River Bones,” the voice said. “And I’d like to talk with you about publishing it.”\n\nLeon sat down on an overturned bucket because his knees had gone soft.",
+        "“What’s wrong?” she said immediately.\n\n“Nothing,” he replied. “For once, nothing. The novel sold.”\n\nSilence. Then a sharp intake of breath.\n\n“Leon.”\n\n“Yeah.”\n\n“Oh my God.” Her voice broke on the last word, surprising them both. “Oh my God.”",
+        "“I don’t want to start over,” Marilyn said finally.\n\n“Neither do I.”\n\n“But maybe we could stop repeating.”\n\nHe considered this.\n\n“Maybe,” he said."
+      ],
+      "reasoning": "The story contains many substantial scenes of direct quoted speech, but they are embedded within extensive descriptive and reflective narration. Dialogue is clearly frequent and important, yet it does not dominate the text; narration and interior exposition remain at least equally prominent. That makes the best fit a balanced mix rather than rare dialogue or dialogue-dominant narration."
+    }
+  },
+  "metadata": {
+    "model": "gpt-5.4-2026-03-05",
+    "total_features": 8,
+    "features_extracted": 8,
+    "dimension_details": {
+      "style": {
+        "features_extracted": 1
+      },
+      "revelation": {
+        "features_extracted": 1
+      },
+      "situatedness": {
+        "features_extracted": 1
+      },
+      "setting": {
+        "features_extracted": 1
+      },
+      "plot": {
+        "features_extracted": 2
+      },
+      "agents": {
+        "features_extracted": 1
+      },
+      "perspective": {
+        "features_extracted": 1
+      }
+    }
+  }
+}
