@@ -1,0 +1,399 @@
+<meta name="claude:viewport-fit-sides" content="cover">
+<title>Feature Evidence Viewer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: three columns. Feature list | story with highlighted evidence | value, reasoning, evidence panel. */
+:root{
+  --bg:#f6f5f2; --surface:#ffffff; --surface2:#efeeea; --fg:#1d1f24; --muted:#6a6e77; --line:#dedcd5;
+  --accent:#2f5d8c; --accent-soft:#dbe6f2; --hl:#ffe08a; --hl-strong:#f6bf2c; --hl-fg:#1d1f24;
+  --warn:#9a5b00;
+  --font-read:"Newsreader",Georgia,serif; --font-ui:"IBM Plex Sans",system-ui,sans-serif; --font-mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#15171b; --surface:#1d2025; --surface2:#262a31; --fg:#e8e6e1; --muted:#9a9ea8; --line:#33373f;
+  --accent:#8db6e6; --accent-soft:#25344a; --hl:#5c4a12; --hl-strong:#b98b14; --hl-fg:#fff3cf; --warn:#e0a24a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#15171b; --surface:#1d2025; --surface2:#262a31; --fg:#e8e6e1; --muted:#9a9ea8; --line:#33373f;
+  --accent:#8db6e6; --accent-soft:#25344a; --hl:#5c4a12; --hl-strong:#b98b14; --hl-fg:#fff3cf; --warn:#e0a24a; color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{background:var(--bg);color:var(--fg);font:14px/1.45 var(--font-ui);padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));padding-block:12px;display:flex;flex-direction:column;gap:12px}
+header{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+h1{font-size:15px;font-weight:600;margin:0;letter-spacing:.01em}
+.sp{flex:1}
+select,button,label.btn{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 10px;cursor:pointer}
+button:hover,label.btn:hover{border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+input[type=file]{display:none}
+main{flex:1;min-height:0;display:grid;grid-template-columns:260px minmax(0,1fr) 340px;gap:12px}
+.col{background:var(--surface);border:1px solid var(--line);border-radius:8px;min-height:0;min-width:0;display:flex;flex-direction:column}
+.col>h2{margin:0;padding:10px 14px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border-bottom:1px solid var(--line)}
+.scroll{overflow:auto;min-height:0;flex:1}
+/* features */
+.feat{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:1px solid var(--line);border-radius:0;padding:10px 14px;display:flex;flex-direction:column;gap:4px}
+.feat[aria-pressed=true]{background:var(--accent-soft);box-shadow:inset 3px 0 0 var(--accent)}
+.feat .id{font:11px var(--font-mono);color:var(--muted)}
+.feat .nm{font-weight:500}
+.feat .meta{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.chip{font:11px var(--font-mono);background:var(--surface2);border:1px solid var(--line);border-radius:4px;padding:1px 6px;overflow-wrap:anywhere}
+.cnt{font-size:11px;color:var(--muted)}
+/* story */
+.story{padding:22px clamp(16px,4vw,48px);font:18px/1.7 var(--font-read);white-space:pre-wrap;overflow-wrap:anywhere;max-width:78ch;margin-inline:auto}
+mark{background:var(--hl);color:var(--hl-fg);border-radius:2px;padding:1px 0;cursor:pointer;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+mark.on{background:var(--hl-strong)}
+mark sup{font:600 10px var(--font-ui);color:var(--accent);margin-left:1px;user-select:none}
+.empty{color:var(--muted);padding:16px;font-size:13px}
+/* human annotation */
+.ann{border:1px solid var(--accent);border-radius:8px;padding:10px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.opt{display:flex;gap:8px;align-items:flex-start;padding:5px 6px;border-radius:5px;cursor:pointer;font:13px var(--font-mono);overflow-wrap:anywhere}
+.opt:hover{background:var(--surface2)}
+.opt input{margin-top:2px;accent-color:var(--accent)}
+textarea{font:13px/1.4 var(--font-ui);color:var(--fg);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 8px;width:100%;resize:vertical;min-height:52px}
+input[type=text]{font:inherit;color:var(--fg);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:5px 8px;width:130px}
+.tog{display:flex;align-items:center;gap:6px;font-size:13px;cursor:pointer}
+.hbadge{font:11px var(--font-mono);color:var(--accent)}
+.agree{font-size:12px;font-weight:600}
+.agree.y{color:#2e7d4f}.agree.n{color:var(--warn)}
+.hidden-note{color:var(--muted);font-size:13px;border:1px dashed var(--line);border-radius:6px;padding:10px}
+.link{background:none;border:0;padding:0;color:var(--accent);text-decoration:underline;font-size:12px}
+#exportBox{display:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:10px;gap:8px;flex-direction:column}
+#exportBox.open{display:flex}
+#exportBox textarea{min-height:110px;font:12px var(--font-mono)}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+/* panel */
+.p{padding:14px;display:flex;flex-direction:column;gap:14px}
+.p h3{margin:0;font-size:15px;font-weight:600}
+.p .q{color:var(--muted);margin:2px 0 0}
+.lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;font-weight:600}
+.val{font:500 14px var(--font-mono);background:var(--accent-soft);border-radius:6px;padding:8px 10px;overflow-wrap:anywhere}
+.allowed{display:flex;flex-wrap:wrap;gap:4px}
+.allowed .chip.sel{background:var(--accent-soft);border-color:var(--accent)}
+.reason{margin:0;line-height:1.5}
+ol.ev{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+ol.ev li{display:flex;gap:8px;border:1px solid var(--line);border-radius:6px;padding:8px;cursor:pointer;font:15px/1.45 var(--font-read)}
+ol.ev li:hover,ol.ev li.on{border-color:var(--accent);background:var(--accent-soft)}
+ol.ev li b{font:600 11px var(--font-mono);color:var(--accent);padding-top:3px}
+ol.ev li .miss{display:block;font:11px var(--font-ui);color:var(--warn);margin-top:2px}
+@media (max-width:1000px){
+  html,body{height:auto}
+  main{grid-template-columns:1fr}
+  .scroll{max-height:none}
+  .col.story-col .scroll{max-height:70vh}
+}
+</style>
+
+<header>
+  <h1>Feature Evidence Viewer</h1>
+  <select id="storySel" aria-label="Story"></select>
+  <span class="sp"></span>
+  <span class="cnt" id="modelInfo"></span>
+  <label class="tog" title="Hide the model's value and reasoning until you have chosen your own"><input type="checkbox" id="blind"> Blind mode</label>
+  <input type="text" id="who" placeholder="Annotator name" aria-label="Annotator name">
+  <span class="cnt" id="progress"></span>
+  <button id="exportBtn">Export</button>
+  <label class="btn" for="loadFiles">Load…</label>
+  <input type="file" id="loadFiles" accept=".txt,.json" multiple>
+</header>
+<div id="exportBox">
+  <div class="row"><span class="lbl" style="margin:0">Human annotations</span><span class="sp"></span>
+    <button id="dlJson">Download JSON</button><button id="dlCsv">Download CSV</button><button id="cpJson">Copy JSON</button>
+    <label class="btn" for="impAnn">Import JSON…</label><input type="file" id="impAnn" accept=".json">
+    <button id="closeExp">Close</button></div>
+  <textarea id="expText" readonly aria-label="Exported annotations"></textarea>
+  <span class="cnt" id="expMsg">Annotations are saved in this browser as you work. Export to keep or share them.</span>
+</div>
+<main>
+  <section class="col"><h2>Features</h2><div class="scroll" id="feats"></div></section>
+  <section class="col story-col"><h2 id="storyHead">Story</h2><div class="scroll" id="storyWrap"><div class="story" id="story"></div></div></section>
+  <section class="col"><h2>Annotation</h2><div class="scroll" id="panel"></div></section>
+</main>
+
+<script>
+const DATA = __DATA__;
+const META = __META__;
+const $ = id => document.getElementById(id);
+let cur = null, sel = null, activeEv = null;
+
+/* ---------- human annotation state (saved in this browser) ---------- */
+const LS = {
+  get(k){ try{ return localStorage.getItem(k) }catch(e){ return null } },
+  set(k,v){ try{ localStorage.setItem(k,v) }catch(e){} }
+};
+let ann = {};            // { storyTitle: { featureId: {value, note} } }
+try{ ann = JSON.parse(LS.get('fev-annotations')||'{}') }catch(e){ ann = {} }
+const saveAnn = () => LS.set('fev-annotations', JSON.stringify(ann));
+const getAnn = (t,fid) => (ann[t]||{})[fid];
+function setAnn(t,fid,patch){
+  ann[t] = ann[t]||{}; ann[t][fid] = Object.assign({}, ann[t][fid], patch, {ts:new Date().toISOString()});
+  const a = ann[t][fid];
+  const empty = (a.value===undefined || a.value===null || (Array.isArray(a.value)&&!a.value.length)) && !(a.note||'').trim();
+  if(empty) delete ann[t][fid];
+  saveAnn(); updateProgress(); updateFeatMarks();
+}
+const nx = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,'');
+function vkey(v){
+  if(Array.isArray(v)) return v.map(vkey).sort().join('|');
+  if(typeof v==='number') return String(v);
+  const m = String(v).match(/^\s*(\d+)/);
+  return m ? m[1] : nx(v);
+}
+const hasValue = a => a && a.value!==undefined && a.value!==null && !(Array.isArray(a.value)&&!a.value.length);
+const agrees = (modelV, humanV) => vkey(modelV)===vkey(humanV);
+let blind = LS.get('fev-blind')==='1';
+
+/* Normalise text for matching while remembering original offsets. */
+const MAP = {'“':'"','”':'"','„':'"','‘':"'",'’':"'",'–':'-','—':'-','…':'...',' ':' '};
+function norm(s){
+  let out='', idx=[], prevSpace=false;
+  for(let i=0;i<s.length;i++){
+    let c=s[i]; const r = MAP[c]!==undefined?MAP[c]:c;
+    for(const ch of r){
+      if(/\s/.test(ch)){ if(prevSpace||out==='') continue; out+=' '; idx.push(i); prevSpace=true; }
+      else { out+=ch; idx.push(i); prevSpace=false; }
+    }
+  }
+  return {out, idx};
+}
+function findAll(text, quote){
+  const T = norm(text), Q = norm(quote).out.trim();
+  const res = [];
+  const parts = Q.length ? [Q] : [];
+  const locate = q => {
+    const p = T.out.indexOf(q);
+    return p<0 ? null : [T.idx[p], T.idx[p+q.length-1]+1];
+  };
+  let r = locate(Q);
+  if(r) return [r];
+  // fall back: split on ellipses / bracketed gaps and match each piece
+  const pieces = Q.split(/\.\.\.|\[[^\]]*\]/).map(x=>x.trim()).filter(x=>x.length>=12);
+  for(const p of pieces){ const m = locate(p); if(m) res.push(m); }
+  return res;
+}
+
+function featMeta(id){ return META[id] || {name:id, question:'', values:[]}; }
+
+function valText(v){ return Array.isArray(v)?v.join(', '):String(v); }
+
+function loadStory(i){
+  cur = DATA[i];
+  $('modelInfo').textContent = cur.model ? 'extracted with ' + cur.model : '';
+  $('storyHead').textContent = cur.title;
+  // compute ranges per feature
+  cur.ranges = {};
+  for(const [fid,f] of Object.entries(cur.features)){
+    cur.ranges[fid] = (f.evidence||[]).map(q => findAll(cur.text, q));
+  }
+  renderFeats(); updateProgress();
+  select(sel && cur.features[sel] ? sel : Object.keys(cur.features)[0]);
+}
+
+function renderFeats(){
+  const box = $('feats'); box.innerHTML='';
+  for(const [fid,f] of Object.entries(cur.features)){
+    const m = featMeta(fid);
+    const b = document.createElement('button');
+    b.className='feat'; b.dataset.fid=fid; b.setAttribute('aria-pressed','false');
+    b.innerHTML = `<span class="id">${fid}</span><span class="nm"></span><span class="meta"><span class="chip"></span><span class="cnt"></span></span><span class="hbadge"></span>`;
+    b.querySelector('.nm').textContent = m.name;
+    b.querySelector('.chip').textContent = valText(f.value);
+    b.querySelector('.cnt').textContent = (f.evidence||[]).length + ' evidence';
+    b.onclick = () => select(fid);
+    box.appendChild(b);
+  }
+  updateFeatMarks();
+}
+function updateFeatMarks(){
+  document.querySelectorAll('.feat').forEach(b=>{
+    const fid=b.dataset.fid, a=getAnn(cur.title,fid), f=cur.features[fid];
+    b.querySelector('.hbadge').textContent = hasValue(a) ? 'You: ' + valText(a.value) : '';
+    // in blind mode the model's value is hidden until the human has answered
+    b.querySelector('.chip').style.visibility = (blind && !hasValue(a)) ? 'hidden' : 'visible';
+  });
+}
+function updateProgress(){
+  if(!cur) return;
+  const n = Object.keys(cur.features).filter(fid=>hasValue(getAnn(cur.title,fid))).length;
+  $('progress').textContent = `${n}/${Object.keys(cur.features).length} annotated`;
+}
+
+function select(fid){
+  sel = fid; activeEv = null;
+  document.querySelectorAll('.feat').forEach(b=>b.setAttribute('aria-pressed', b.dataset.fid===fid));
+  renderStory(); renderPanel();
+  const first = document.querySelector('#story mark');
+  if(first) first.scrollIntoView({block:'center',behavior:'smooth'});
+  else $('storyWrap').scrollTo({top:0});
+}
+
+function renderStory(){
+  const text = cur.text, f = cur.features[sel];
+  // collect spans: {s,e,ev}
+  const spans = [];
+  cur.ranges[sel].forEach((rs,ei)=>rs.forEach(([s,e])=>spans.push({s,e,ev:ei})));
+  const cuts = new Set([0,text.length]);
+  spans.forEach(x=>{cuts.add(x.s);cuts.add(x.e)});
+  const pts = [...cuts].sort((a,b)=>a-b);
+  const root = $('story'); root.textContent='';
+  const seen = new Set();
+  for(let k=0;k<pts.length-1;k++){
+    const a=pts[k], b=pts[k+1]; if(a===b) continue;
+    const covering = spans.filter(x=>x.s<=a && x.e>=b);
+    const piece = text.slice(a,b);
+    if(!covering.length){ root.appendChild(document.createTextNode(piece)); continue; }
+    const ev = covering[0].ev;
+    const m = document.createElement('mark');
+    m.dataset.ev = ev; m.appendChild(document.createTextNode(piece));
+    if(!seen.has(ev)){ seen.add(ev); const s=document.createElement('sup'); s.textContent=ev+1; m.appendChild(s); }
+    m.onclick = () => focusEv(ev,true);
+    root.appendChild(m);
+  }
+}
+
+function renderPanel(){
+  const f = cur.features[sel], m = featMeta(sel), title = cur.title;
+  const p = $('panel'); p.innerHTML='';
+  const d = document.createElement('div'); d.className='p';
+  const el = (tag,cls,txt)=>{const e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e};
+  const head = el('div'); head.append(el('h3',null,m.name), el('p','q',m.question)); d.append(head);
+
+  /* --- human annotation --- */
+  const box = el('div','ann'); box.append(el('div','lbl','Your annotation'));
+  const multi = m.type==='multi_select';
+  const cur_a = getAnn(title,sel) || {};
+  const chosen = new Set((Array.isArray(cur_a.value)?cur_a.value:(cur_a.value!==undefined?[cur_a.value]:[])).map(String));
+  (m.values||[]).forEach((x,k)=>{
+    const lab = el('label','opt'); const inp = document.createElement('input');
+    inp.type = multi?'checkbox':'radio'; inp.name='h-'+sel; inp.id=`h-${sel}-${k}`; inp.value=String(x);
+    inp.checked = chosen.has(String(x));
+    inp.onchange = () => {
+      let val;
+      if(multi){ val=[...box.querySelectorAll('input:checked')].map(i=>i.value); }
+      else val = inp.value;
+      setAnn(title,sel,{value:val}); renderModelBox(); clearBtn.hidden=false;
+    };
+    lab.append(inp, document.createTextNode(String(x))); box.append(lab);
+  });
+  const note = document.createElement('textarea'); note.id='note-'+sel; note.placeholder='Notes (optional)'; note.value = cur_a.note||'';
+  note.oninput = () => setAnn(title,sel,{note:note.value});
+  const clearBtn = el('button','link','Clear my answer'); clearBtn.hidden = !hasValue(cur_a);
+  clearBtn.onclick = () => { setAnn(title,sel,{value:null}); renderPanel(); };
+  box.append(note, clearBtn); d.append(box);
+
+  /* --- model output --- */
+  const mbox = el('div'); mbox.id='modelBox'; d.append(mbox);
+
+  /* --- evidence --- */
+  const ev = el('div'); ev.append(el('div','lbl',`Evidence (${(f.evidence||[]).length})`));
+  if(!(f.evidence||[]).length) ev.append(el('div','empty','No evidence quoted for this feature.'));
+  const ol = el('ol','ev');
+  (f.evidence||[]).forEach((q,i)=>{
+    const li = el('li'); li.dataset.ev=i;
+    const found = cur.ranges[sel][i].length>0;
+    const body = el('span'); body.append(document.createTextNode(q));
+    if(!found) body.append(el('span','miss','Not located in the story text'));
+    li.append(el('b',null,String(i+1)), body);
+    li.onclick = () => focusEv(i,false);
+    ol.append(li);
+  });
+  ev.append(ol); d.append(ev); p.append(d);
+  renderModelBox();
+}
+
+function renderModelBox(){
+  const f = cur.features[sel], m = featMeta(sel), a = getAnn(cur.title,sel);
+  const mb = $('modelBox'); if(!mb) return; mb.innerHTML='';
+  const el = (tag,cls,txt)=>{const e=document.createElement(tag); if(cls)e.className=cls; if(txt!==undefined)e.textContent=txt; return e};
+  if(blind && !hasValue(a)){
+    mb.append(el('div','hidden-note','Blind mode is on. Choose a value above to reveal the model\'s value and reasoning.'));
+    return;
+  }
+  const v = el('div'); v.append(el('div','lbl','Model value'), el('div','val',valText(f.value)));
+  if(hasValue(a)){
+    const ok = agrees(f.value, a.value);
+    const g = el('div','agree '+(ok?'y':'n'), ok?'Matches your annotation':'Differs from your annotation'); g.style.marginTop='6px'; v.append(g);
+  }
+  mb.append(v);
+  const r = el('div'); r.append(el('div','lbl','Model reasoning'), el('p','reason', f.reasoning || 'No reasoning recorded.')); mb.append(r);
+}
+
+/* ---------- export / import ---------- */
+function exportRows(){
+  const rows = [];
+  DATA.forEach(d=>{
+    const a = ann[d.title]||{};
+    Object.entries(a).forEach(([fid,x])=>{
+      const mf = d.features[fid]; const mv = mf?mf.value:null;
+      rows.push({story:d.title, feature_id:fid, feature_name:featMeta(fid).name, human_value:x.value===undefined?null:x.value,
+        model_value:mv, agrees:(hasValue(x)&&mf)?agrees(mv,x.value):null, note:x.note||'', timestamp:x.ts||''});
+    });
+  });
+  return rows;
+}
+const exportObj = () => ({annotator:$('who').value.trim(), exported_at:new Date().toISOString(), annotations:exportRows()});
+const csvCell = v => { v = v===null||v===undefined?'':(Array.isArray(v)?v.join('; '):String(v)); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v };
+function toCsv(){
+  const rows = exportRows(), cols=['story','feature_id','feature_name','human_value','model_value','agrees','note','timestamp'];
+  return [['annotator',...cols].join(',')].concat(rows.map(r=>[$('who').value.trim(),...cols.map(c=>r[c])].map(csvCell).join(','))).join('\n');
+}
+function refreshExport(){ $('expText').value = JSON.stringify(exportObj(),null,2); }
+function download(name,text,type){
+  try{
+    const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([text],{type})); a.download=name;
+    document.body.appendChild(a); a.click(); a.remove();
+    $('expMsg').textContent='If no file was saved, use Copy JSON instead; some viewers block downloads.';
+  }catch(e){ $('expMsg').textContent='Downloads are blocked here. Use Copy JSON.'; }
+}
+$('exportBtn').onclick = () => { refreshExport(); $('exportBox').classList.toggle('open'); };
+$('closeExp').onclick = () => $('exportBox').classList.remove('open');
+$('dlJson').onclick = () => { refreshExport(); download('annotations.json',$('expText').value,'application/json'); };
+$('dlCsv').onclick = () => download('annotations.csv',toCsv(),'text/csv');
+$('cpJson').onclick = async () => {
+  refreshExport(); const t=$('expText');
+  try{ await navigator.clipboard.writeText(t.value); $('expMsg').textContent='Copied.'; }
+  catch(e){ t.focus(); t.select(); $('expMsg').textContent='Press Ctrl/Cmd+C to copy the selected text.'; }
+};
+$('impAnn').onchange = async e => {
+  try{
+    const js = JSON.parse(await e.target.files[0].text()); let n=0;
+    (js.annotations||[]).forEach(r=>{
+      if(!r.story||!r.feature_id) return;
+      ann[r.story]=ann[r.story]||{}; ann[r.story][r.feature_id]={value:r.human_value,note:r.note||'',ts:r.timestamp||''}; n++;
+    });
+    if(js.annotator && !$('who').value) { $('who').value=js.annotator; LS.set('fev-who',js.annotator); }
+    saveAnn(); updateProgress(); updateFeatMarks(); renderPanel(); refreshExport();
+    $('expMsg').textContent=`Imported ${n} annotations.`;
+  }catch(err){ $('expMsg').textContent='Could not read that file as an annotations JSON.'; }
+};
+$('who').value = LS.get('fev-who')||'';
+$('who').oninput = () => { LS.set('fev-who',$('who').value); };
+$('blind').checked = blind;
+$('blind').onchange = () => { blind = $('blind').checked; LS.set('fev-blind', blind?'1':'0'); updateFeatMarks(); renderModelBox(); };
+
+function focusEv(i, fromStory){
+  activeEv = i;
+  document.querySelectorAll('#story mark').forEach(m=>m.classList.toggle('on', +m.dataset.ev===i));
+  document.querySelectorAll('#panel li').forEach(l=>l.classList.toggle('on', +l.dataset.ev===i));
+  if(fromStory){ const li = document.querySelector(`#panel li[data-ev="${i}"]`); li&&li.scrollIntoView({block:'nearest',behavior:'smooth'}); }
+  else { const m = document.querySelector(`#story mark[data-ev="${i}"]`); m&&m.scrollIntoView({block:'center',behavior:'smooth'}); }
+}
+
+function init(){
+  const s = $('storySel'); s.innerHTML='';
+  DATA.forEach((d,i)=>{const o=document.createElement('option'); o.value=i; o.textContent=d.title; s.append(o)});
+  s.onchange = () => loadStory(+s.value);
+  loadStory(0);
+}
+
+/* Load your own: a story .txt and its features .json (evidence format) */
+$('loadFiles').onchange = async e => {
+  const files=[...e.target.files]; let txt=null, js=null, name='Loaded story';
+  for(const f of files){
+    if(f.name.endsWith('.json')) js=JSON.parse(await f.text());
+    else { txt=await f.text(); name=f.name.replace(/\.txt$/,''); }
+  }
+  if(!txt||!js){ $('modelInfo').textContent='Select one .txt story and one .json features file together.'; return; }
+  DATA.push({title:name, text:txt, model:(js.metadata||{}).model, features:js.features});
+  init(); $('storySel').value = DATA.length-1; loadStory(DATA.length-1);
+};
+init();
+</script>
