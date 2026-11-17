@@ -82,6 +82,19 @@ class Taxonomy:
     def total_features(self) -> int:
         return sum(len(d.features) for d in self.dimensions)
 
+    def filter_features(self, feature_ids) -> "Taxonomy":
+        """Keep only the given feature IDs; drop dimensions left empty."""
+        keep = set(feature_ids)
+        dims = []
+        for d in self.dimensions:
+            feats = [f for f in d.features if f.id in keep]
+            if feats:
+                dims.append(Dimension(key=d.key, name=d.name, description=d.description, features=feats))
+        missing = keep - {f.id for d in dims for f in d.features}
+        if missing:
+            raise ValueError(f"Feature IDs not found in taxonomy: {sorted(missing)}")
+        return Taxonomy(dimensions=dims)
+
     @classmethod
     def from_json(cls, path: str) -> "Taxonomy":
         with open(path) as f:
@@ -207,7 +220,7 @@ def normalize_features(features: Dict[str, Any], taxonomy: Taxonomy) -> Dict[str
 # Per-dimension prompt building
 # ---------------------------------------------------------------------------
 
-def build_dimension_prompt(dimension: Dimension, story_text: str) -> str:
+def build_dimension_prompt(dimension: Dimension, story_text: str, evidence: bool = False) -> str:
     """Build a prompt for extracting features from one dimension."""
     feature_specs = []
     for f in dimension.features:
@@ -225,6 +238,14 @@ def build_dimension_prompt(dimension: Dimension, story_text: str) -> str:
     max_chars = 280000
     if len(story_text) > max_chars:
         story_text = story_text[:max_chars] + "\n\n[... story truncated ...]"
+
+    if evidence:
+        output_block = """Return a single JSON object with feature IDs as keys. Each value must be an object with three keys:
+- "value": the feature value, following the response format rules above
+- "evidence": a JSON array of ALL passages from the story that support your chosen value. Copy each passage verbatim, in the story's original language (do not translate or paraphrase). Use an empty array only when the value is "n/a" or the feature is supported by the absence of anything in the text.
+- "reasoning": a brief explanation (in English) of how the evidence leads to your chosen value rather than the alternatives."""
+    else:
+        output_block = "Return a single JSON object with feature IDs as keys."
 
     return f"""You are a literary analyst specializing in {dimension.name.lower()}.
 
@@ -255,7 +276,7 @@ For each feature, select the appropriate value(s) from the allowed options.
 
 # OUTPUT
 
-Return a single JSON object with feature IDs as keys.
+{output_block}
 """
 
 
@@ -291,13 +312,16 @@ def extract_story_features(
     taxonomy: Taxonomy,
     story_text: str,
     dim_workers: int = 5,
+    evidence: bool = False,
 ) -> Tuple[Dict[str, Any], Dict]:
     """Extract all features for a single story across all dimensions."""
     all_features = {}
+    all_evidence = {}
+    all_reasoning = {}
     dim_stats = {}
 
     def process_dimension(dim: Dimension):
-        prompt = build_dimension_prompt(dim, story_text)
+        prompt = build_dimension_prompt(dim, story_text, evidence=evidence)
         result = generate_dimension_json(provider, prompt, dim.key)
         return dim.key, result
 
@@ -308,6 +332,13 @@ def extract_story_features(
             try:
                 dim_key, result = future.result()
                 dim_features = {k: v for k, v in result.items() if not k.startswith("_")}
+                if evidence:
+                    for k, v in list(dim_features.items()):
+                        if isinstance(v, dict):
+                            ev = v.get("evidence", [])
+                            all_evidence[k] = ev if isinstance(ev, list) else [ev]
+                            all_reasoning[k] = v.get("reasoning", "")
+                            dim_features[k] = v.get("value")
                 all_features.update(dim_features)
                 dim_stats[dim_key] = {"features_extracted": len(dim_features)}
             except Exception as e:
@@ -315,12 +346,28 @@ def extract_story_features(
                 dim_stats[dim.key] = {"error": str(e)}
 
     normalized = normalize_features(all_features, taxonomy)
+    if evidence:
+        normalized = {
+            fid: {
+                "value": val,
+                "evidence": all_evidence.get(fid, []),
+                "reasoning": all_reasoning.get(fid, ""),
+            }
+            for fid, val in normalized.items()
+        }
     return normalized, dim_stats
 
 
 def main():
     parser = argparse.ArgumentParser(description="Apply feature taxonomy to stories")
-    parser.add_argument("--csv", required=True, help="CSV or parquet with stories")
+    parser.add_argument("--csv", default=None, help="CSV or parquet with stories")
+    parser.add_argument("--stories-dir", default=None,
+                        help="Directory of <id>_<title>/{story.txt,metadata.json} (alternative to --csv)")
+    parser.add_argument("--source", default="gpt", help="Source label for --stories-dir stories")
+    parser.add_argument("--feature-ids", nargs="+", default=None,
+                        help="Only extract these feature IDs")
+    parser.add_argument("--evidence", action="store_true",
+                        help="Also extract verbatim supporting evidence for each feature")
     parser.add_argument("--taxonomy", required=True, help="Path to taxonomy JSON")
     parser.add_argument("--output-dir", required=True, help="Output directory for features")
     parser.add_argument("--config", default="config/models.yaml", help="Path to models.yaml")
@@ -340,11 +387,28 @@ def main():
         provider_name=args.provider, model=args.model,
     )
 
+    if not args.csv and not args.stories_dir:
+        parser.error("one of --csv or --stories-dir is required")
+
     taxonomy = Taxonomy.from_json(args.taxonomy)
+    if args.feature_ids:
+        taxonomy = taxonomy.filter_features(args.feature_ids)
     logger.info(f"Taxonomy: {taxonomy.total_features} features across {len(taxonomy.dimensions)} dimensions")
 
     # Load stories
-    if args.csv.endswith(".parquet"):
+    if args.stories_dir:
+        records = []
+        for story_path in sorted(Path(args.stories_dir).glob("*/story.txt")):
+            meta_path = story_path.parent / "metadata.json"
+            meta = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
+            pid = meta.get("prompt_id", story_path.parent.name.split("_")[0])
+            records.append({
+                "prompt_id": int(pid),
+                "title": meta.get("title", f"Story_{pid}"),
+                SOURCE_COLUMNS[args.source][0]: story_path.read_text(encoding="utf-8"),
+            })
+        df = pd.DataFrame(records)
+    elif args.csv.endswith(".parquet"):
         df = pd.read_parquet(args.csv)
     else:
         df = pd.read_csv(args.csv, low_memory=False)
@@ -360,7 +424,7 @@ def main():
         pid = int(row.get("prompt_id", 0))
         title = str(row.get("title", f"Story_{pid}"))
 
-        for source in args.sources:
+        for source in ([args.source] if args.stories_dir else args.sources):
             story_text = None
             for col in SOURCE_COLUMNS.get(source, []):
                 if col in df.columns and pd.notna(row.get(col)):
@@ -402,7 +466,7 @@ def main():
         task["source_dir"].mkdir(parents=True, exist_ok=True)
         features, dim_stats = extract_story_features(
             provider, taxonomy, task["story_text"],
-            dim_workers=args.dim_workers,
+            dim_workers=args.dim_workers, evidence=args.evidence,
         )
 
         result = {
