@@ -16,8 +16,11 @@ import re
 from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Optional
+from dotenv import load_dotenv
 
 import yaml
+
+load_dotenv()  # loads OPENAI_API_KEY from .env
 
 
 class LLMProvider(ABC):
